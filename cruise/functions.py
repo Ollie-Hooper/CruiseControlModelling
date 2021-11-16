@@ -13,6 +13,6 @@ def drag(Cd, A, rho, v):
     return 0.5*Cd*A*rho*v**2
 
 
-def acceleration(v, t):
-    return weight(mu)
+def acceleration(t, r, a):
+    return t/(r*sin(a))
 
