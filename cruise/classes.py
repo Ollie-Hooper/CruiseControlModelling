@@ -45,16 +45,16 @@ class Car:
         a = self.angle
         return 0.5 * Cd * A * rho * v ** 2
 
-    def driving_force(self):
+    def accelerating_force(self):
         a = self.angle
         t = self.torque
-        r = self.wheel_dimensions[1]
+        r = self.wheel_radius
         return t/(r*sin(a))
 
-    def acceleration(self, v, t):
-        # D = self.driving_force(v)
+    def resultant_acceleration(self, v):
+        A = self.accelerating_force()
         F = self.friction()
         W = self.weight()
         d = self.drag(v)
         M = self.mass
-        return (500000 + F + W + d) / M
+        return (A + F + W + d) / M
