@@ -8,18 +8,14 @@ from cruise.classes import Car
 
 
 def main():
-    car = Car(1611, [1.443, 1.849, 4.694], 0.23, 211000, 450, 62.5856, [0.216, 0.2285])
+    car = Car(1611, [1.443, 1.849, 4.694], 0.23, 211000, 240, 62.5856, [0.216, 0.2285])
 
-    t = np.linspace(0, 100, 200)
+    t = np.linspace(0, 200, 200)
     v0 = 0
 
-    V = odeint(car.acceleration, v0, t, full_output=1)
+    v = odeint(car.acceleration, v0, t)
 
-    plt.plot(t, V)
-    plt.xticks(t)
-    plt.yticks(t, "")
-    plt.xlabel('time- seconds')
-    plt.ylabel('v(t)')
+    plt.plot(t, v*3.6)
     plt.show()
 
 
