@@ -21,7 +21,7 @@ class Car:
         self.mu = 0.25
         self.g = -9.81
         self.air_density = 1
-        self.angle = 0
+        self.angle = 0.2
 
         self.speed = 0
 
@@ -74,7 +74,7 @@ class Car:
         return 0.5 * Cd * A * rho * v ** 2
 
     def acceleration(self, v, t):
-        v = v[0]
+        # v = v[0]
         A = self.acc_force(v)
         F = self.friction()
         W = self.weight()

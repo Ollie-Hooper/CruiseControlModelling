@@ -4,8 +4,7 @@ import matplotlib.pyplot as plt
 
 from scipy.integrate import odeint
 
-from cruise.classes import Car
-from torque_curves import TorquePlotting
+from cruise.classes import Car, TorquePlotting
 
 
 def main():
@@ -17,8 +16,23 @@ def main():
     v0 = 0
 
     v = odeint(car.acceleration, v0, t)
+    v1 = []
+    for i in v:
+        v1.append(i*2.23694)
 
+    plt.subplot(1, 2, 1)
     plt.plot(t, v*3.6)
+    plt.xlabel('Time $t$ [s]')
+    plt.ylabel('Velocity $v$ [m/s]')
+    plt.grid(True, linestyle='dotted')
+
+    plt.subplot(1, 2, 2)
+    plt.plot(t, v1, 'r')
+    plt.xlabel('Time $t$ [s]')
+    plt.ylabel('Velocity $v$ [mph]')
+    plt.grid(True, linestyle='dotted')
+
+    plt.suptitle('Velocity over time of Tesla model 3')
     plt.show()
 
     # plotting the torque graphs (against angular velocity and velocity)
