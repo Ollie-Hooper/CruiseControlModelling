@@ -9,6 +9,7 @@ from cruise.classes import Car, TorquePlotting
 
 def main():
     car = Car(1611, [1.443, 1.849, 4.694], 0.23, 211000, 450, 62.5856, [0.216, 0.2285])
+  #  car = Car(19000, [2.5,5.875,3.993], 0.8, 324000, 2100, 37.5514, [0.315, 0.5717])
     curves = TorquePlotting(211000, 450)
 
     # solving the ODE to find velocity
