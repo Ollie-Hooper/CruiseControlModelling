@@ -21,9 +21,13 @@ class Car:
         self.mu = 0.25
         self.g = -9.81
         self.air_density = 1
-        self.angle = 0.2
+        self.angle = 0.5
 
         self.speed = 0
+    
+        # PID parameters
+        self.v_req = 0 # required speed
+        self.input = False # PID controller output/plant input (Feedback path)
 
     def cross_sectional_area(self):
         return self.height * self.width
@@ -75,6 +79,10 @@ class Car:
 
     def acceleration(self, v, t):
         # v = v[0]
+        if self.input != False:
+            if self.v_req != v:
+                v += self.input 
+                
         A = self.acc_force(v)
         F = self.friction()
         W = self.weight()
