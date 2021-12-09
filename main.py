@@ -14,30 +14,34 @@ def main():
               {1: 16.41, 2: 13.28, 3: 11.32, 4: 9.16, 5: 7.19, 6: 5.82, 7: 4.63, 8: 3.75, 9: 3.02, 10: 2.44, 11: 1.92,
                12: 1.55, 13: 1.24, 14: 1.0}, 2.53)  # MAN TGX
 
-    car = man
-
     # solving the ODE to find velocity
     t = np.linspace(0, 100, 1000)
     v0 = 0
 
-    v = odeint(car.acceleration, v0, t)
+    v_audi = odeint(audi.acceleration, v0, t)
+
+    v_man = odeint(man.acceleration, v0, t)
 
     plt.subplot(1, 2, 1)
-    plt.plot(t, v)
-    plt.xlabel('Time $t$ [s]')
-    plt.ylabel('Velocity $v$ [m/s]')
-    plt.grid(True, linestyle='dotted')
-
-    plt.subplot(1, 2, 2)
-    plt.plot(t, v * 2.2369362920544025, 'r')
+    plt.title(f'Velocity of {audi.name}')
+    plt.plot(t, v_audi * 2.2369362920544025)
     plt.xlabel('Time $t$ [s]')
     plt.ylabel('Velocity $v$ [mph]')
     plt.grid(True, linestyle='dotted')
 
-    plt.suptitle(f'Velocity over time of {car.name}')
+    plt.subplot(1, 2, 2)
+    plt.title(f'Velocity of {man.name}')
+    plt.plot(t, v_man * 2.2369362920544025, 'r')
+    plt.xlabel('Time $t$ [s]')
+    plt.ylabel('Velocity $v$ [mph]')
+    plt.grid(True, linestyle='dotted')
+
+    plt.tight_layout()
+
     plt.show()
 
-    car.plot_torques()
+    audi.plot_torques()
+    man.plot_torques()
 
 
 if __name__ == "__main__":
