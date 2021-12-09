@@ -4,57 +4,40 @@ import matplotlib.pyplot as plt
 
 from scipy.integrate import odeint
 
-from cruise.classes import Car, TorquePlotting
+from cruise.classes import Car
 
 
 def main():
-    car = Car(1611, [1.443, 1.849, 4.694], 0.23, 211000, 450, 62.5856, [0.216, 0.2285])
-  #  car = Car(19000, [2.5,5.875,3.993], 0.8, 324000, 2100, 37.5514, [0.315, 0.5717])
-    curves = TorquePlotting(211000, 450)
+    audi = Car("Audi S4 Saloon", 1795, 2.04, 0.31, (100, 410), (0.216, 0.2286), (1500, 6500),
+               {1: 3.665, 2: 1.999, 3: 1.407, 4: 1.000, 5: 0.742}, 3.511)  # Audi S4 Saloon
+    man = Car("MAN TGX", 19000, 23.459, 0.8, (100, 2100), (0.315, 0.28575), (1500, 4500),
+              {1: 16.41, 2: 13.28, 3: 11.32, 4: 9.16, 5: 7.19, 6: 5.82, 7: 4.63, 8: 3.75, 9: 3.02, 10: 2.44, 11: 1.92,
+               12: 1.55, 13: 1.24, 14: 1.0}, 2.53)  # MAN TGX
+
+    car = man
 
     # solving the ODE to find velocity
-    t = np.linspace(0, 200, 200)
+    t = np.linspace(0, 100, 1000)
     v0 = 0
 
     v = odeint(car.acceleration, v0, t)
-    v1 = []
-    for i in v:
-        v1.append(i*2.23694)
 
     plt.subplot(1, 2, 1)
-    plt.plot(t, v*3.6)
+    plt.plot(t, v)
     plt.xlabel('Time $t$ [s]')
     plt.ylabel('Velocity $v$ [m/s]')
     plt.grid(True, linestyle='dotted')
 
     plt.subplot(1, 2, 2)
-    plt.plot(t, v1, 'r')
+    plt.plot(t, v * 2.2369362920544025, 'r')
     plt.xlabel('Time $t$ [s]')
     plt.ylabel('Velocity $v$ [mph]')
     plt.grid(True, linestyle='dotted')
 
-    plt.suptitle('Velocity over time of Tesla model 3')
+    plt.suptitle(f'Velocity over time of {car.name}')
     plt.show()
 
-    # plotting the torque graphs (against angular velocity and velocity)
-    plt.subplot(1, 2, 1)
-    omega_range = np.linspace(0, 700, 701)  # max angular velocity found from P = tw
-    plt.plot(omega_range, [curves.torque_curves(w) for w in omega_range])
-    plt.xlabel('Angular velocity $\omega$ [rad/s]')
-    plt.ylabel('Torque $T$ [Nm]')
-    plt.grid(True, linestyle='dotted')
-
-    plt.subplot(1, 2, 2)
-    v_range = np.linspace(0, 63, 64)  # max velocity is 62.5856 m/s
-    alpha = [40, 25, 16, 12, 10]
-    for gear in range(5):
-        omega_range = alpha[gear] * v_range
-        plt.plot(v_range, [curves.torque_curves(w) for w in omega_range])
-    plt.grid(True, linestyle='dotted')
-    plt.xlabel('Velocity $v$ [m/s]')
-    plt.ylabel('Torque $T$ [Nm]')
-
-    plt.show()
+    car.plot_torques()
 
 
 if __name__ == "__main__":
